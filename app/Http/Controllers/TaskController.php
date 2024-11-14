@@ -8,6 +8,7 @@ use App\Http\Requests\UpdateTaskRequest;
 use DB;
 use Exception;
 use Illuminate\Http\Request;
+use PhpParser\Error;
 
 class TaskController extends Controller
 {
@@ -16,7 +17,7 @@ class TaskController extends Controller
    */
   public function index(Request $request)
   {
-    $task = Task::orderBy('id', 'desc')->paginate(5);
+    $task = Task::orderBy('id', 'desc')->get(['id', 'description', 'completed']);
     return response()->json([
       'status' => true,
       "Task" => $task
@@ -40,15 +41,25 @@ class TaskController extends Controller
 
     try {
 
-      Task::create([
+      $task = Task::create([
         'description' => $request->description
       ]);
+
+      // throw new Exception();
+
+      $task = [
+        'id' => $task->id,
+        'description' => $task->description,
+        'completed' => $task->completed,
+      ];
+
 
       DB::commit();
 
       return response()->json([
         'status' => true,
-        "message" => 'Tarefa cadastrada com sucesso'
+        "message" => 'Tarefa cadastrada com sucesso',
+        'task' => $task,
       ], 201);
 
     } catch (Exception $e) {
@@ -88,13 +99,13 @@ class TaskController extends Controller
     DB::beginTransaction();
 
     try {
-
       $task->update([
         'description' => $request->description,
         'completed' => $request->completed
       ]);
-
       DB::commit();
+
+      // throw new Exception();
 
       return response()->json([
         'status' => true,
@@ -123,8 +134,8 @@ class TaskController extends Controller
 
       $task->delete();
 
+      // throw new Exception();
       DB::commit();
-
       return response()->json([
         'status' => true,
         "message" => 'Tarefa deletada com sucesso'

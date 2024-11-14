@@ -8,10 +8,10 @@ use Illuminate\Notifications\Notifiable;
 
 class Task extends Model
 {
-    /** @use HasFactory<\Database\Factories\TaskFactory> */
-    use HasFactory, Notifiable;
-    protected $fillable = ['description','completed'];
-    protected $attributes = [
-        'completed' => false,
-    ];
+  /** @use HasFactory<\Database\Factories\TaskFactory> */
+  use HasFactory, Notifiable;
+  protected $fillable = ['id', 'description', 'completed'];
+  protected $attributes = [
+    'completed' => 0,
+  ];
 }
