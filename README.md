@@ -17,3 +17,10 @@ depois rodar o servidor
 ```bash
 php artisan serve
 ```
+O banco de dados usei mysql
+
+Para iniciar copie o .envexemple
+
+Renomeie para .env
+
+Trocar os dados do banco para da sua escolha
